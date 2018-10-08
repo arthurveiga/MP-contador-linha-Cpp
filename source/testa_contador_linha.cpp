@@ -30,6 +30,8 @@ TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
     }
 }
 
+
+
 TEST_CASE("le_arquivo", "Testa se o arquivo é lido.") {
     SECTION("le_arquivo: ERRO_bufferArqNaoExiste") {
         printf("le_arquivo: erro, buffer de arquivo não existe");
@@ -44,6 +46,7 @@ TEST_CASE("le_arquivo", "Testa se o arquivo é lido.") {
     SECTION("le_arquivo: OK") {
         printf("le_arquivo: OK");
         std::filebuf f;
+        abre_arquivo(&f, "sample/hello.cpp");
         CHECK(le_arquivo(&f).first == 0);
     }
 }

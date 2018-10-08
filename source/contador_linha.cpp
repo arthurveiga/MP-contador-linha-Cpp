@@ -26,6 +26,35 @@ int abre_arquivo (std::filebuf * file, std::string file_name) {
     }
 }
 
-std::pair<int, int> le_arquivo (std::filebuf * file) {
+/**
+ * @brief 
+ * 
+ * @param fileInputStream 
+ * @return int 
+ */
+int le_linhas(std::stringstream * fileInputStream){
+    
+}
 
+/**
+ * @brief 
+ * 
+ * @param file 
+ * @return std::pair <int, int> 
+ */
+std::pair <int, int> le_arquivo (std::filebuf * file) {
+    if (file == NULL) {
+        return std::make_pair(-1, 0);
+    }
+    if (file->is_open()) {
+        int count = 0;
+        std::stringstream fileInputStream;
+        fileInputStream << file;
+        while (fileInputStream) {
+            printf("%c", fileInputStream.get());
+        }
+        // int count = le_linhas(&fileInputStream);
+        return std::make_pair(1, count); 
+    }
+    return std::make_pair(-1,0); 
 }
