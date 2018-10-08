@@ -25,3 +25,7 @@ int abre_arquivo (std::filebuf * file, std::string file_name) {
         return -1;
     }
 }
+
+std::pair<int, int> le_arquivo (std::filebuf * file) {
+
+}

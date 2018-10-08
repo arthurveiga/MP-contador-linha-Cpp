@@ -29,3 +29,21 @@ TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
         CHECK(abre_arquivo(&f, s) == 0);
     }
 }
+
+TEST_CASE("le_arquivo", "Testa se o arquivo é lido.") {
+    SECTION("le_arquivo: ERRO_bufferArqNaoExiste") {
+        printf("le_arquivo: erro, buffer de arquivo não existe");
+        CHECK(le_arquivo(NULL).first == -1);
+    }
+    SECTION("le_arquivo: ERRO_arquivoFechado") {
+        printf("le_arquivo: erro, buffer de arquivo não está aberto");
+        std::filebuf f;
+        abre_arquivo(&f, "");
+        CHECK(le_arquivo(&f).first == -1);
+    }
+    SECTION("le_arquivo: OK") {
+        printf("le_arquivo: OK");
+        std::filebuf f;
+        CHECK(le_arquivo(&f).first == 0);
+    }
+}
