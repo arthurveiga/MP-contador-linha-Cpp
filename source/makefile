@@ -1,6 +1,6 @@
 IDIR =../include
 CC=g++
-CFLAGS=-I$(IDIR) -ftest-coverage -fprofile-arcs
+CFLAGS=-I$(IDIR) -g -ftest-coverage -fprofile-arcs
 
 ODIR=obj
 LDIR =../lib
@@ -18,11 +18,14 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-testa_pilha: testa_contador_linha.cpp $(OBJ)
+testa_contador_linha: testa_contador_linha.cpp $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 run:
 	./testa_contador_linha
+
+test:
+	gdb testa_contador_linha
 
 # clean
 .PHONY: clean
