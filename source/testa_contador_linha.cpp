@@ -30,20 +30,28 @@ TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
     }
 }
 
-TEST_CASE("le_arquivo", "Testa se o arquivo é lido.") {
-    SECTION("le_arquivo: ERRO_bufferArqNaoExiste") {
-        printf("le_arquivo: erro, buffer de arquivo não existe");
-        CHECK(le_arquivo(NULL).first == -1);
+TEST_CASE("le_linhas_sstream", "Testa se as linhas do arquivo estão sendo lidas.")  {
+    SECTION("le_linhas_sstream: ERRO_str") {
+        //TODO
+        w
     }
-    SECTION("le_arquivo: ERRO_arquivoFechado") {
-        printf("le_arquivo: erro, buffer de arquivo não está aberto");
+}
+
+TEST_CASE("bufferiza_arquivo_to_sstream", "Testa se o arquivo é transferido para um buffer de string.") {
+    SECTION("bufferiza_arquivo_to_sstream: ERRO_bufferArqNaoExiste") {
+        printf("bufferiza_arquivo_to_sstream: erro, buffer de arquivo não existe");
+        CHECK(bufferiza_arquivo_to_sstream(NULL).first == -1);
+    }
+    SECTION("bufferiza_arquivo_to_sstream: ERRO_arquivoFechado") {
+        printf("bufferiza_arquivo_to_sstream: erro, buffer de arquivo não está aberto");
         std::filebuf f;
         abre_arquivo(&f, "");
-        CHECK(le_arquivo(&f).first == -1);
+        CHECK(bufferiza_arquivo_to_sstream(&f).first == -1);
     }
-    SECTION("le_arquivo: OK") {
-        printf("le_arquivo: OK");
+    SECTION("bufferiza_arquivo_to_sstream: OK") {
+        printf("bufferiza_arquivo_to_sstream: OK");
         std::filebuf f;
-        CHECK(le_arquivo(&f).first == 0);
+        abre_arquivo(&f, "sample/hello.cpp");
+        CHECK(bufferiza_arquivo_to_sstream(&f).first == 0);
     }
 }
