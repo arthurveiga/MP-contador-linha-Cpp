@@ -31,7 +31,12 @@ TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
 }
 
 TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  {
+    SECTION("count_linhas: OK_stringVazia\n") {
+        printf("count_linhas: OK_stringVazia");
+        CHECK(count_linhas("").first == 1);
+    }
     SECTION("count_linhas: OK\n") {
+        printf("count_linhas: OK\n");
         std::filebuf f;
         std::string s = "sample/hello.cpp";
         abre_arquivo(&f, s);

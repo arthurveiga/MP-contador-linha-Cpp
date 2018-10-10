@@ -33,6 +33,9 @@ int abre_arquivo (std::filebuf * file, std::string file_name) {
  * @return std::pair <int, int> 
  */
 std::pair <int, int> count_linhas (std::string fileString) {
+    if(fileString == ""){
+        return std::make_pair(1, 0);    
+    }
     // int count = 0;
     // return std::make_pair(0, count);
 }

@@ -3,3 +3,5 @@ source/obj/contador_linha.o
 source/testa_contador_linha.gcda
 source/testa_contador_linha.gcno
 source/testa_contador_linha
+source/obj/contador_linha.gcda
+source/obj/contador_linha.gcno
