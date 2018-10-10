@@ -1,8 +1,5 @@
 MP_trab3_tdd.pdf
-obj/contador_linha.gcda
-obj/contador_linha.gcno
-obj/contador_linha.o
-testa_contador_linha
-testa_contador_linha.cpp
-testa_contador_linha.gcda
-testa_contador_linha.gcno
+source/obj/contador_linha.o
+source/testa_contador_linha.gcda
+source/testa_contador_linha.gcno
+source/testa_contador_linha

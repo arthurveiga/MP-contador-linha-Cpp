@@ -29,11 +29,12 @@ int abre_arquivo (std::filebuf * file, std::string file_name) {
 /**
  * @brief 
  * 
- * @param fileInputStream 
- * @return int 
+ * @param fileString 
+ * @return std::pair <int, int> 
  */
-int le_linhas_sstream(std::stringstream * fileInputStream){
-    
+std::pair <int, int> count_linhas (std::string fileString) {
+    // int count = 0;
+    // return std::make_pair(0, count);
 }
 
 /**
@@ -42,19 +43,18 @@ int le_linhas_sstream(std::stringstream * fileInputStream){
  * @param file 
  * @return std::pair <int, int> 
  */
-std::pair <int, int> bufferiza_arquivo_to_sstream(std::filebuf * file) {
+std::pair <int, int> le_arquivo_to_string_count (std::filebuf * file) {
+    int count = 0;
+    std::stringstream fileInput ("");
     if (file == NULL) {
-        return std::make_pair(-1, 0);
+        return std::make_pair(-1, count);
     }
     if (file->is_open()) {
-        int count = 0;
-        std::stringstream fileInputStream;
-        fileInputStream << file;
-        while (fileInputStream) {
-            printf("%c", fileInputStream.get());
-        }
-        // int count = le_linhas(&fileInputStream);
-        return std::make_pair(1, count); 
+        fileInput << file;
+        std::string fileString;
+        fileString.assign(fileInput.str());
+        count = count_linhas(fileString).second;
+        return std::make_pair(0, count);
     }
-    return std::make_pair(-1,0); 
+    return std::make_pair(-1, count); 
 }

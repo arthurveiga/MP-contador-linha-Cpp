@@ -15,7 +15,7 @@
 #include <sstream>
 
 int abre_arquivo(std::filebuf *file, std::string file_name);
-int le_linhas_sstream(std::stringstream * fileInputStream);
-std::pair <int, int> bufferiza_arquivo_to_sstream(std::filebuf * file); 
+std::pair <int, int> count_linhas (std::string fileString);
+std::pair <int, int> le_arquivo_to_string_count (std::filebuf * file);
 
 #endif

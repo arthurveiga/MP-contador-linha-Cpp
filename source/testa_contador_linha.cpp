@@ -23,35 +23,43 @@ TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
         CHECK(abre_arquivo(&f, s) == -1);
     }
     SECTION("abre_arquivo: OK") {
-        printf("abre_arquivo: OK");
+        printf("abre_arquivo: OK\n");
         std::filebuf f;
         std::string s = "sample/hello.cpp";
         CHECK(abre_arquivo(&f, s) == 0);
     }
 }
 
-TEST_CASE("le_linhas_sstream", "Testa se as linhas do arquivo estão sendo lidas.")  {
-    SECTION("le_linhas_sstream: ERRO_str") {
-        //TODO
-        w
+TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  {
+    SECTION("count_linhas: OK\n") {
+        std::filebuf f;
+        std::string s = "sample/hello.cpp";
+        abre_arquivo(&f, s);
+        std::stringstream sstr;
+        sstr << &f;
+        std::string s2(sstr.str());
+        CHECK(count_linhas(s2).first == 0);        
     }
 }
 
-TEST_CASE("bufferiza_arquivo_to_sstream", "Testa se o arquivo é transferido para um buffer de string.") {
-    SECTION("bufferiza_arquivo_to_sstream: ERRO_bufferArqNaoExiste") {
-        printf("bufferiza_arquivo_to_sstream: erro, buffer de arquivo não existe");
-        CHECK(bufferiza_arquivo_to_sstream(NULL).first == -1);
+TEST_CASE("le_arquivo_to_string_count", "Testa se o arquivo é transferido para um buffer de string.") {
+    SECTION("le_arquivo_to_string_count: ERRO_bufferArqNaoExiste") {
+        printf("le_arquivo_to_string_count: erro, buffer de arquivo não existe\n");
+        CHECK(le_arquivo_to_string_count(NULL).first == -1);
     }
-    SECTION("bufferiza_arquivo_to_sstream: ERRO_arquivoFechado") {
-        printf("bufferiza_arquivo_to_sstream: erro, buffer de arquivo não está aberto");
+    SECTION("le_arquivo_to_string_count: ERRO_arquivoFechado") {
+        printf("le_arquivo_to_string_count: erro, buffer de arquivo não está aberto\n");
         std::filebuf f;
         abre_arquivo(&f, "");
-        CHECK(bufferiza_arquivo_to_sstream(&f).first == -1);
+        CHECK(le_arquivo_to_string_count(&f).first == -1);
     }
-    SECTION("bufferiza_arquivo_to_sstream: OK") {
-        printf("bufferiza_arquivo_to_sstream: OK");
+    SECTION("le_arquivo_to_string_count: OK") {
+        printf("le_arquivo_to_string_count: OK\n");
         std::filebuf f;
-        abre_arquivo(&f, "sample/hello.cpp");
-        CHECK(bufferiza_arquivo_to_sstream(&f).first == 0);
+        std::string s = "sample/hello.cpp";
+        abre_arquivo(&f, s);
+        CHECK(le_arquivo_to_string_count(&f).first == 0);
+        //TODO CHECK(le_arquivo_to_string_count(&f).first == numero que deu de count);
     }
 }
+
