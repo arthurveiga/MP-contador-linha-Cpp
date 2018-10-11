@@ -2,7 +2,7 @@
  * @file contador_linha.cpp
  * @author Arthur da Veiga Feitoza Borges - 13/0050725 (https://github.com/arthurveiga/MP-contador-linha-Cpp)
  * @brief 
- * @version 0.2.5
+ * @version 1.0
  * @date 2018-10-11
  * 
  * @copyright Copyright (c) 2018
@@ -13,9 +13,9 @@
 /**
  * @brief abre_arquivo: A função abre_arquivo é simples. Ele abre um arquivo válido no buffer para leitura/escrita. No caso usaremos somente para leitura.
  *      Nele checamos se o arquivo existe e se ele já estava aberto. Se um dos dois casos acontece, é retornado -1, indicando que houve falha. 
- *      Assertivas de entrada: std::filebuf file, std::string file_name
- *      Assertivas de saída: std::filebuf file, o valor retornado pela função.
- * @param file o buffer no qual o arquivo será aberto.
+ *      Assertivas de entrada: std::filebuf * file, std::string file_name
+ *      Assertivas de saída: std::filebuf * file, o valor retornado pela função.
+ * @param file o ponteiro do buffer no qual o arquivo será aberto.
  * @param file_name o nome do arquivo que será aberto.
  * @return int retorna se o procedimento teve sucesso ou não.
  */
@@ -40,7 +40,7 @@ int abre_arquivo(std::filebuf * file, std::string file_name) {
  *              fileString (string - arq) -> data_stream (sstream - arq) -> line (string - linha) -> line_stream (sstream - linha) -> line_char (char);
  *          2) Manipulação de line_char para fazer o tratamento das linhas de código. Esta e a próxima etapa andam juntas: elas formam uma máquina de estados eficiente para fazer as devidas classificações das linhas para ver a linha é contada ou não. E;
  *          3) Contagem, tendo como base o estado resultante. A contagem só acontece nos estados init e barra.
- *      Assertivas de entrada: std::string fileString, a enumeração global STATE,
+ *      Assertivas de entrada: std::string fileString, a enumeração STATE definida no .hpp,
  *      Assertivas de saída: int count, no par retornado pela função.     
  * @param fileString o arquivo completo em forma de string.
  * @return std::pair <int, int> retorna-se um par onde: 
@@ -62,7 +62,7 @@ std::pair <int, int> count_linhas(std::string fileString) {
         while (line_stream) {
             line_char = line_stream.get();
             switch (estado) {
-    /*  case init: observam-se as seguintes situações:
+    /*  case init: é o estado inicial da máquina. observam-se as seguintes situações:
         - line_char é '/' -> estado = barra; ("" -> "/")
         - line_char é ' ' -> deleta-se de line as barras de espaço e checa se o seu tamanho é zero. Se sim, estado = espaço; ("" -> " ").
         - o tamanho da line é zero -> estado = espaco;
@@ -203,8 +203,8 @@ std::pair <int, int> count_linhas(std::string fileString) {
 
 /**
  * @brief A função fecha_arquivo é simples. Ele fecha o buffer no qual está aberto o arquivo para leitura/escrita.
- *      Assertivas de entrada: std::filebuf file
- *      Assertivas de saída: std::filebuf file, o valor retornado pela função.
+ *      Assertivas de entrada: std::filebuf * file
+ *      Assertivas de saída: std::filebuf * file, o valor retornado pela função.
  * 
  * @param file é o buffer de arquivo que vamos fechar.
  * @return int retorna se o procedimento teve sucesso ou não.

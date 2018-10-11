@@ -2,7 +2,7 @@
  * @file contador_linha.hpp
  * @author Arthur da Veiga Feitoza Borges - 13/0050725 (https://github.com/arthurveiga/MP-contador-linha-Cpp)
  * @brief 
- * @version 0.2.5
+ * @version 1.0
  * @date 2018-10-11
  * 
  * @copyright Copyright (c) 2018
@@ -36,9 +36,9 @@ enum STATE {
 /**
  * @brief abre_arquivo: A função abre_arquivo é simples. Ele abre um arquivo válido no buffer para leitura/escrita. No caso usaremos somente para leitura.
  *      Nele checamos se o arquivo existe e se ele já estava aberto. Se um dos dois casos acontece, é retornado -1, indicando que houve falha. 
- *      Assertivas de entrada: std::filebuf file, std::string file_name
- *      Assertivas de saída: std::filebuf file, o valor retornado pela função.
- * @param file o buffer no qual o arquivo será aberto.
+ *      Assertivas de entrada: std::filebuf * file, std::string file_name
+ *      Assertivas de saída: std::filebuf * file, o valor retornado pela função.
+ * @param file o ponteiro do buffer no qual o arquivo será aberto.
  * @param file_name o nome do arquivo que será aberto.
  * @return int retorna se o procedimento teve sucesso ou não.
  */
@@ -62,8 +62,8 @@ std::pair <int, int> count_linhas(std::string fileString);
 
 /**
  * @brief A função fecha_arquivo é simples. Ele fecha o buffer no qual está aberto o arquivo para leitura/escrita.
- *      Assertivas de entrada: std::filebuf file
- *      Assertivas de saída: std::filebuf file, o valor retornado pela função.
+ *      Assertivas de entrada: std::filebuf * file
+ *      Assertivas de saída: std::filebuf * file, o valor retornado pela função.
  * 
  * @param file é o buffer de arquivo que vamos fechar.
  * @return int retorna se o procedimento teve sucesso ou não.

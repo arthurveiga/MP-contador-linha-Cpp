@@ -2,7 +2,7 @@
  * @file testa_contador_linha.cpp
  * @author Arthur da Veiga Feitoza Borges - 13/0050725 (https://github.com/arthurveiga/MP-contador-linha-Cpp)
  * @brief 
- * @version 0.2.5
+ * @version 1.0
  * @date 2018-10-11
  * 
  * @copyright Copyright (c) 2018
@@ -45,7 +45,7 @@ TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
  * 
  */
 TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  {
-    SECTION("count_linhas: OK_arquivoVazio\n") {
+    SECTION("count_linhas: OK_arquivoVazio") {
         printf("count_linhas: OK - arquivo vazio\n");
         std::filebuf f;
         abre_arquivo(&f, "sample/vazio.cpp");
