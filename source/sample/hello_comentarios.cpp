@@ -8,9 +8,9 @@ using namespace std;
 
 // comentário de linha única com barra invertida que não conta \ 
 
-// comentário de linha única com linha de comentário extra \
-linha de comentário extra \
-outra linha de comentário extra
+// comentario de linha unica com linha de comentario extra \
+// linha de comentário extra \
+// outra linha de comentário extra
 
 //linha de espaços abaixo
                             
@@ -27,5 +27,6 @@ comentário de linhas múltiplas em várias linhas */
    
 int main(int argc, char const *argv[]) {
     cout << "hello, monitor!";
+    cout << "DEU BOM!";
     return 0;
 }
