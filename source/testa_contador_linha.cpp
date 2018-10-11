@@ -2,7 +2,7 @@
  * @file testa_contador_linha.cpp
  * @author Arthur da Veiga Feitoza Borges - 13/0050725 (https://github.com/arthurveiga/MP-contador-linha-Cpp)
  * @brief 
- * @version 0.2.3
+ * @version 0.2.5
  * @date 2018-10-11
  * 
  * @copyright Copyright (c) 2018
@@ -13,7 +13,7 @@
 #include "../include/contador_linha.hpp"
 
 /**
- * @brief 
+ * @brief TESTE: abre_arquivo - Testa se o arquivo abre.
  * 
  */
 TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
@@ -41,7 +41,7 @@ TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
 }
 
 /**
- * @brief 
+ * @brief TESTE: count_linhas - testa se as linhas do arquivo estão sendo lidas e contadas.
  * 
  */
 TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  {
@@ -98,7 +98,7 @@ TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  
 }
 
 /**
- * @brief 
+ * @brief TESTE: fecha_arquivo - testa se o arquivo fechou.
  * 
  */
 TEST_CASE("fecha_arquivo", "Testa se o arquivo fechou") {
@@ -123,7 +123,7 @@ TEST_CASE("fecha_arquivo", "Testa se o arquivo fechou") {
 }
 
 /**
- * @brief 
+ * @brief TESTE: le_arquivo_to_string_count - testa a junção das três funções: abre_arquivo + count_linhas + fecha_arquivo.
  * 
  */
 TEST_CASE("le_arquivo_to_string_count", "Junção das 3 funções") {

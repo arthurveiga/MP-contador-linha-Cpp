@@ -2,7 +2,7 @@
  * @file contador_linha.hpp
  * @author Arthur da Veiga Feitoza Borges - 13/0050725 (https://github.com/arthurveiga/MP-contador-linha-Cpp)
  * @brief 
- * @version 0.2.3
+ * @version 0.2.5
  * @date 2018-10-11
  * 
  * @copyright Copyright (c) 2018
@@ -19,7 +19,7 @@
 #include <utility>
 
 /**
- * @brief 
+ * @brief Representação da Máquina de Estados usada em count_linhas. 
  * 
  */
 enum STATE {

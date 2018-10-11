@@ -2,7 +2,7 @@
  * @file contador_linha.cpp
  * @author Arthur da Veiga Feitoza Borges - 13/0050725 (https://github.com/arthurveiga/MP-contador-linha-Cpp)
  * @brief 
- * @version 0.2.3
+ * @version 0.2.5
  * @date 2018-10-11
  * 
  * @copyright Copyright (c) 2018
@@ -62,6 +62,11 @@ std::pair <int, int> count_linhas(std::string fileString) {
         while (line_stream) {
             line_char = line_stream.get();
             switch (estado) {
+    /*  case init: observam-se as seguintes situações:
+        - line_char é '/' -> estado = barra; ("" -> "/")
+        - line_char é ' ' -> deleta-se de line as barras de espaço e checa se o seu tamanho é zero. Se sim, estado = espaço; ("" -> " ").
+        - o tamanho da line é zero -> estado = espaco;
+    */
                 case init:
                     if (line.size() == 0)
                         estado = espaco;
@@ -79,8 +84,15 @@ std::pair <int, int> count_linhas(std::string fileString) {
                             estado = espaco;
                     }
                     break;
+    /*  case espaço: aqui não se faz nada, só na hora da contagem da linha.
+    */
                 case espaco:
                     break;
+    /*  case barra: aqui já temos o estado no qual temos uma barra ("/"). observam-se as seguintes situações:
+        - line_char é '/' -> estado = barra_dupla; ("/" -> "//"), que são comentários de única linha.
+        - line_char é '*' -> estado = barra_asterisco; ("/" -> "/*"), que são comentários de múltiplas linhas.
+        - se não for nenhum dos casos -> estado = init; ("/" -> "")
+    */
                 case barra:
                     if (line_char == '/') {
                         estado = barra_dupla;
@@ -92,16 +104,33 @@ std::pair <int, int> count_linhas(std::string fileString) {
                         }
                     }
                     break;
+    /*  case barra_dupla: aqui já temos o estado no qual temos duas barras ("//"), que é comentário de única linha. observa-se a seguinte situação:
+        - se o último caractere de line é '\' -> estado = barra_invertida; ("//" -> "// \"), que são comentários de única linha adicionado de uma linha extra.
+        - se não acontece a situação acima, o estado é mantido.
+    */
                 case barra_dupla:
                     if (line.back() == '\\') {
                         estado = barra_invertida;
                     }
                     break;
+    /*  case barra_invertida: aqui já temos o estado no qual temos duas barras e uma outra invertida ("// \"), que são comentários de única linha adicionado de uma linha extra. observa-se as seguintes situações:
+        - se o último caractere de line não é '\' -> estado = barra_dupla; ("// \" -> "//"), que são comentários de única linha.
+        - se não acontece a situação acima, o estado é mantido.
+    */
                 case barra_invertida:
                     if (line.back() != '\\') {
                         estado = barra_dupla;
                     }
                     break;
+    //  case barra_asterisco: aqui já temos o estado
+    //      no qual temos uma barra e um asterisco ("/*"),
+    //      que é comentário de múltiplas linhas.
+    //      observa-se a seguinte situação:
+    //  - se ainda há elementos em line_stream
+    //      E line_char é '*' -> estado = barra_asterisco_asterisco;
+    //      ("/*" -> "/**"), que ainda são comentários de múltiplas linhas.
+    //  - se não acontece a situação acima, o estado é mantido.
+    //
                 case barra_asterisco:
                     if (line_stream) {
                         if (line_char == '*') {
@@ -110,6 +139,20 @@ std::pair <int, int> count_linhas(std::string fileString) {
                         }
                     }
                     break;
+    //  case barra_asterisco_asterisco:
+    //      aqui já temos o estado no qual
+    //      temos uma barra e dois asteriscos ("/*"),
+    //      que é comentário de múltiplas linhas.
+    //      Observa-se a seguinte situação:
+    //  - se ainda há elementos em line_stream
+    //      E line_char é '/' ->
+    //      estado = barra_asterisco_asterisco_barra;
+    //      ("/**" -> "/**/"), que é quando o comentário
+    //      de múltiplas linhas é fechado.
+    //      O caso a seguir é uma situação interessante.
+    //  - se não acontece a situação acima,
+    //      o estado é mantido.
+    //
                 case barra_asterisco_asterisco:
                     if (line_stream) {
                         if (line_char == '/') {
@@ -118,6 +161,17 @@ std::pair <int, int> count_linhas(std::string fileString) {
                         }
                     }
                     break;
+    // case barra_asterisco_asterisco_barra:
+    //      aqui fechamos o comentário de
+    //      múltiplas linhas ("/**/").
+    //      Mas é importante observar que:
+    // - se ainda há elementos em line_stream,
+    //      estado = init; ("/**/" -> "").
+    //      Isso faz com que a máquina de estados resete.
+    // - mas, se deleta-se de line as barras de espaço e,
+    //      se o seu tamanho é zero é verdadeiro,
+    //      estado = espaco; ("/**/" -> " ")
+    //
                 case barra_asterisco_asterisco_barra:
                     if (line_stream)
                         estado = init;
@@ -131,11 +185,13 @@ std::pair <int, int> count_linhas(std::string fileString) {
         // máquina de estado: contará linha ou não?
 
         switch (estado) {
+            /* casos de init e barra, conta mais uma linha e define estado = init;*/
             case init:
             case barra:
                 count++;
                 estado = init;
                 break;
+            /* casos de espaco e barra_dupla, define estado = init somente;*/
             case espaco:
             case barra_dupla:
                 estado = init;
