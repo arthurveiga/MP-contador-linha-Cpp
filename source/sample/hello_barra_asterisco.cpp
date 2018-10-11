@@ -14,6 +14,7 @@ comentário de linhas múltiplas em várias linhas */
 /*comentário antes de código. tem que contar essa linha.*/ int j = 0;
    
 int main(int argc, char const *argv[]) {
+    char c = '!';
     cout << "hello, monitor!";
     return 0;
 }

@@ -71,11 +71,11 @@ std::pair <int, int> count_linhas (std::string fileString) {
                     if (line_char == '/') {
                         estado = barra_dupla;
                     } else {
-                        // if (line_char == '*') {
-                        //     estado = barra_asterisco; //TODO
-                        // } else {
-                        //     estado = init;
-                        // }
+                        if (line_char == '*') {
+                            estado = barra_asterisco; 
+                        } else {
+                            estado = init;
+                        }
                     }
                     break;
                 case barra_dupla:
@@ -87,6 +87,29 @@ std::pair <int, int> count_linhas (std::string fileString) {
                     if (line.back() != '\\') {
                         estado = barra_dupla;
                     }
+                    break;
+                case barra_asterisco:
+                    if (line_stream){
+                        if (line_char == '*') {
+                            estado = barra_asterisco_asterisco;
+                            break;
+                        }
+                    }
+                    break;
+                case barra_asterisco_asterisco:
+                    if (line_stream){
+                        if (line_char == '/') {
+                            estado = barra_asterisco_asterisco_barra;
+                            break;
+                        }
+                    }
+                    break;
+                case barra_asterisco_asterisco_barra:
+                    if (line_stream)
+                        estado = init;
+                    line.erase(line.find_last_not_of(" \n\r\t")+1);
+                    if (line.size() == 0)
+                        estado = espaco;
                     break;
             }
         }
@@ -102,7 +125,6 @@ std::pair <int, int> count_linhas (std::string fileString) {
                 break;
             case espaco:
             case barra_dupla:
-            case barra_asterisco_asterisco_barra:
                 estado = init;
                 break;
         }
