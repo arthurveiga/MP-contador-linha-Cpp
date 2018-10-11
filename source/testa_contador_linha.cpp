@@ -49,16 +49,16 @@ TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  
         CHECK(count_linhas(s2).first == 0);    
         CHECK(count_linhas(s2).second == 7);    
     }
-    SECTION("count_linhas: OK_comComentariosBarraDupla\n") {
-        printf("count_linhas: OK - arquivo com comentarios de barra dupla\n");
-        std::filebuf f;
-        abre_arquivo(&f, "sample/hello_barra_dupla.cpp");
-        std::stringstream sstr;
-        sstr << &f;
-        std::string s2(sstr.str());
-        CHECK(count_linhas(s2).first == 0);    
-        CHECK(count_linhas(s2).second == 6);    
-    }
+    // SECTION("count_linhas: OK_comComentariosBarraDupla\n") {
+    //     printf("count_linhas: OK - arquivo com comentarios de barra dupla\n");
+    //     std::filebuf f;
+    //     abre_arquivo(&f, "sample/hello_barra_dupla.cpp");
+    //     std::stringstream sstr;
+    //     sstr << &f;
+    //     std::string s2(sstr.str());
+    //     CHECK(count_linhas(s2).first == 0);    
+    //     CHECK(count_linhas(s2).second == 6);    
+    // }
     // SECTION("count_linhas: OK_comComentariosBarraAsterisco\n") {
     //     printf("count_linhas: OK - arquivo com comentarios de barra asterisco\n");
     //     std::filebuf f;
