@@ -41,7 +41,7 @@ std::pair <int, int> count_linhas (std::string fileString) {
     std::stringstream data_stream(fileString);
     std::string line;
     while (std::getline(data_stream, line)) {  
-        std::cout << "\t LINE: " << line << "\n";      
+        //std::cout << "\t LINE: " << line << "\n"; // ---------------      
         std::stringstream line_stream(line);
         char line_char;
         // análise da linha do código para contagem
@@ -49,6 +49,8 @@ std::pair <int, int> count_linhas (std::string fileString) {
             line_char = line_stream.get();
             switch(estado){
                 case init:
+                    if (line.size() == 0) 
+                        estado = espaco;
                     if (line_char != ' ') {
                         if (line_char != '/') {
                             while (line_stream){
@@ -77,19 +79,19 @@ std::pair <int, int> count_linhas (std::string fileString) {
                     }
                     break;
                 case barra_dupla:
-                    if (line.back() == '\\'){
+                    if (line.back() == '\\') {
                         estado = barra_invertida;
                     }
                     break;
                 case barra_invertida:
-                    if (line.back() == '\\'){
+                    if (line.back() != '\\') {
                         estado = barra_dupla;
                     }
                     break;
             }
         }
         line_number++;
-        std::cout << "\t ----> line: " << line_number << ", state: " << estado << "\n";
+        //std::cout << "\t ----> line: " << line_number << ", state: " << estado << "\n"; // ---------------
         // máquina de estado: contará linha ou não?
 
         switch(estado){

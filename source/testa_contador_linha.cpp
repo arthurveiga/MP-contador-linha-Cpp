@@ -39,7 +39,7 @@ TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  
         CHECK(count_linhas(s2).first == 1);    
         CHECK(count_linhas(s2).second == 0);    
     }
-    SECTION("count_linhas: OK_semComentarios\n") {
+    SECTION("count_linhas: OK_semComentarios") {
         printf("count_linhas: OK - arquivo sem comentarios\n");
         std::filebuf f;
         abre_arquivo(&f, "sample/hello.cpp");
@@ -49,17 +49,17 @@ TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  
         CHECK(count_linhas(s2).first == 0);    
         CHECK(count_linhas(s2).second == 7);    
     }
-    // SECTION("count_linhas: OK_comComentariosBarraDupla\n") {
-    //     printf("count_linhas: OK - arquivo com comentarios de barra dupla\n");
-    //     std::filebuf f;
-    //     abre_arquivo(&f, "sample/hello_barra_dupla.cpp");
-    //     std::stringstream sstr;
-    //     sstr << &f;
-    //     std::string s2(sstr.str());
-    //     CHECK(count_linhas(s2).first == 0);    
-    //     CHECK(count_linhas(s2).second == 6);    
-    // }
-    // SECTION("count_linhas: OK_comComentariosBarraAsterisco\n") {
+    SECTION("count_linhas: OK_comComentariosBarraDupla") {
+        printf("count_linhas: OK - arquivo com comentarios de barra dupla\n");
+        std::filebuf f;
+        abre_arquivo(&f, "sample/hello_barra_dupla.cpp");
+        std::stringstream sstr;
+        sstr << &f;
+        std::string s2(sstr.str());
+        CHECK(count_linhas(s2).first == 0);    
+        CHECK(count_linhas(s2).second == 8);    
+    }
+    // SECTION("count_linhas: OK_comComentariosBarraAsterisco") {
     //     printf("count_linhas: OK - arquivo com comentarios de barra asterisco\n");
     //     std::filebuf f;
     //     abre_arquivo(&f, "sample/hello_barra_asterisco.cpp");
@@ -69,7 +69,7 @@ TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  
     //     CHECK(count_linhas(s2).first == 0);    
     //     CHECK(count_linhas(s2).second == 6);    
     // }
-    // SECTION("count_linhas: OK_comComentariosTotal\n") {
+    // SECTION("count_linhas: OK_comComentariosTotal") {
     //     printf("count_linhas: OK - arquivo com comentarios de todos os tipos\n");
     //     std::filebuf f;
     //     abre_arquivo(&f, "sample/hello_comentarios.cpp");
