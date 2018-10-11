@@ -1,8 +1,8 @@
 /**
  * @file testa_contador_linha.cpp
- * @author Arthur da Veiga Feitoza Borges - 13/0050725 (https://github.com/arthurveiga)
+ * @author Arthur da Veiga Feitoza Borges - 13/0050725 (https://github.com/arthurveiga/MP-contador-linha-Cpp)
  * @brief 
- * @version 0.2.1
+ * @version 0.2.3
  * @date 2018-10-11
  * 
  * @copyright Copyright (c) 2018

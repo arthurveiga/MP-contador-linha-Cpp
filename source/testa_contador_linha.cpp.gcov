@@ -1,0 +1,152 @@
+        -:    0:Source:testa_contador_linha.cpp
+        -:    0:Graph:testa_contador_linha.gcno
+        -:    0:Data:testa_contador_linha.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/**
+        -:    2: * @file testa_contador_linha.cpp
+        -:    3: * @author Arthur da Veiga Feitoza Borges - 13/0050725 (https://github.com/arthurveiga)
+        -:    4: * @brief 
+        -:    5: * @version 0.2.1
+        -:    6: * @date 2018-10-11
+        -:    7: * 
+        -:    8: * @copyright Copyright (c) 2018
+        -:    9: * 
+        -:   10: */
+        -:   11:#define CATCH_CONFIG_MAIN  // para não precisar de um main explícito.
+        -:   12:#include "catch.hpp"
+        -:   13:#include "../include/contador_linha.hpp"
+        -:   14:
+        -:   15:/**
+        -:   16: * @brief 
+        -:   17: * 
+        -:   18: */
+        5:   19:TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
+        8:   20:    SECTION("abre_arquivo: ERRO_stringVazia") {
+        1:   21:        printf("abre_arquivo: erro, sem nome de arquivo.\n");
+        2:   22:        std::filebuf f;
+        1:   23:        CHECK(abre_arquivo(&f, "") == -1);
+        -:   24:    }
+        8:   25:    SECTION("abre_arquivo: ERRO_arquivoNaoExiste") {
+        1:   26:        printf("abre_arquivo: erro, nome de arquivo não existe.\n");
+        2:   27:        std::filebuf f;
+        1:   28:        CHECK(abre_arquivo(&f, "sample/naoexiste.cpp") == -1);
+        -:   29:    }
+        8:   30:    SECTION("abre_arquivo: ERRO_arquivoJaAberto") {
+        1:   31:        printf("abre_arquivo: erro, arquivo já aberto.\n");
+        2:   32:        std::filebuf f;
+        1:   33:        abre_arquivo(&f, "sample/hello.cpp");
+        1:   34:        CHECK(abre_arquivo(&f, "sample/hello.cpp") == -1);
+        -:   35:    }
+        8:   36:    SECTION("abre_arquivo: OK") {
+        1:   37:        printf("abre_arquivo: OK\n");
+        2:   38:        std::filebuf f;
+        1:   39:        CHECK(abre_arquivo(&f, "sample/hello.cpp") == 0);
+        -:   40:    }
+        4:   41:}
+        -:   42:
+        -:   43:/**
+        -:   44: * @brief 
+        -:   45: * 
+        -:   46: */
+        6:   47:TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  {
+       10:   48:    SECTION("count_linhas: OK_arquivoVazio\n") {
+        1:   49:        printf("count_linhas: OK - arquivo vazio\n");
+        2:   50:        std::filebuf f;
+        1:   51:        abre_arquivo(&f, "sample/vazio.cpp");
+        2:   52:        std::stringstream sstr;
+        1:   53:        sstr << &f;
+        2:   54:        std::string s2(sstr.str());
+        1:   55:        CHECK(count_linhas(s2).first == 1);
+        1:   56:        CHECK(count_linhas(s2).second == 0);
+        -:   57:    }
+       10:   58:    SECTION("count_linhas: OK_semComentarios") {
+        1:   59:        printf("count_linhas: OK - arquivo sem comentarios\n");
+        2:   60:        std::filebuf f;
+        1:   61:        abre_arquivo(&f, "sample/hello.cpp");
+        2:   62:        std::stringstream sstr;
+        1:   63:        sstr << &f;
+        2:   64:        std::string s2(sstr.str());
+        1:   65:        CHECK(count_linhas(s2).first == 0);
+        1:   66:        CHECK(count_linhas(s2).second == 7);
+        -:   67:    }
+       10:   68:    SECTION("count_linhas: OK_comComentariosBarraDupla") {
+        1:   69:        printf("count_linhas: OK - com comentarios de barra dupla\n");
+        2:   70:        std::filebuf f;
+        1:   71:        abre_arquivo(&f, "sample/hello_barra_dupla.cpp");
+        2:   72:        std::stringstream sstr;
+        1:   73:        sstr << &f;
+        2:   74:        std::string s2(sstr.str());
+        1:   75:        CHECK(count_linhas(s2).first == 0);
+        1:   76:        CHECK(count_linhas(s2).second == 8);
+        -:   77:    }
+       10:   78:    SECTION("count_linhas: OK_comComentariosBarraAsterisco") {
+        1:   79:        printf("count_linhas: OK - com comentarios de barra asterisco\n");
+        2:   80:        std::filebuf f;
+        1:   81:        abre_arquivo(&f, "sample/hello_barra_asterisco.cpp");
+        2:   82:        std::stringstream sstr;
+        1:   83:        sstr << &f;
+        2:   84:        std::string s2(sstr.str());
+        1:   85:        CHECK(count_linhas(s2).first == 0);
+        1:   86:        CHECK(count_linhas(s2).second == 9);
+        -:   87:    }
+       10:   88:    SECTION("count_linhas: OK_comComentariosTotal") {
+        1:   89:        printf("count_linhas: OK - com comentarios de todos os tipos\n");
+        2:   90:        std::filebuf f;
+        1:   91:        abre_arquivo(&f, "sample/hello_comentarios.cpp");
+        2:   92:        std::stringstream sstr;
+        1:   93:        sstr << &f;
+        2:   94:        std::string s2(sstr.str());
+        1:   95:        CHECK(count_linhas(s2).first == 0);
+        1:   96:        CHECK(count_linhas(s2).second == 10);
+        -:   97:    }
+        5:   98:}
+        -:   99:
+        -:  100:/**
+        -:  101: * @brief 
+        -:  102: * 
+        -:  103: */
+        4:  104:TEST_CASE("fecha_arquivo", "Testa se o arquivo fechou") {
+        6:  105:    SECTION("fecha_arquivo: ERRO_naoHaFilebuf") {
+        1:  106:        printf("fecha_arquivo: erro, não há filebuffer\n");
+        1:  107:        CHECK(fecha_arquivo(NULL) == -1);
+        -:  108:    }
+        6:  109:    SECTION("fecha_arquivo: ERRO_arqNaoExiste") {
+        1:  110:        printf("fecha_arquivo: erro, arquivo não existe\n");
+        2:  111:        std::filebuf f;
+        2:  112:        std::string s = "sample/naoexiste.cpp";
+        1:  113:        abre_arquivo(&f, s);
+        1:  114:        CHECK(fecha_arquivo(&f) == -1);
+        -:  115:    }
+        6:  116:    SECTION("fecha_arquivo: OK") {
+        1:  117:        printf("fecha_arquivo: OK\n");
+        2:  118:        std::filebuf f;
+        2:  119:        std::string s = "sample/hello.cpp";
+        1:  120:        abre_arquivo(&f, s);
+        1:  121:        CHECK(fecha_arquivo(&f) == 0);
+        -:  122:    }
+        3:  123:}
+        -:  124:
+        -:  125:/**
+        -:  126: * @brief 
+        -:  127: * 
+        -:  128: */
+        4:  129:TEST_CASE("le_arquivo_to_string_count", "Junção das 3 funções") {
+        6:  130:    SECTION("le_arquivo_to_string_count: ERRO_stringVazia") {
+        1:  131:        printf("le_arquivo_to_string_count: erro, string vazia\n");
+        1:  132:        CHECK(le_arquivo_to_string_count("").first == -1);
+        1:  133:        CHECK(le_arquivo_to_string_count("").second == 0);
+        -:  134:    }
+        6:  135:    SECTION("le_arquivo_to_string_count: ERRO_arqNaoExiste") {
+        1:  136:        printf("le_arquivo_to_string_count: erro, arquivo nao existe\n");
+        2:  137:        std::string s = "sample/naoexiste.cpp";
+        1:  138:        CHECK(le_arquivo_to_string_count(s).first == -1);
+        1:  139:        CHECK(le_arquivo_to_string_count(s).second == 0);
+        -:  140:    }
+        6:  141:    SECTION("le_arquivo_to_string_count: OK") {
+        1:  142:        printf("le_arquivo_to_string_count: OK\n");
+        2:  143:        std::string s = "sample/hello_comentarios.cpp";
+        1:  144:        CHECK(le_arquivo_to_string_count(s).first == 0);
+        1:  145:        CHECK(le_arquivo_to_string_count(s).second == 10);
+        -:  146:    }
+        6:  147:}

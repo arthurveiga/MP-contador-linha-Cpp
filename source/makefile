@@ -27,6 +27,9 @@ run:
 test:
 	gdb testa_contador_linha
 
+gcov:
+	gcov testa_contador_linha.gcno -m
+
 # clean
 .PHONY: clean
 
