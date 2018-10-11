@@ -36,8 +36,15 @@ std::pair <int, int> count_linhas (std::string fileString) {
     if(fileString == ""){
         return std::make_pair(1, 0);    
     }
-    // int count = 0;
-    // return std::make_pair(0, count);
+    int count = 1;
+    std::stringstream data_stream(fileString);
+    std::string line;
+    while(std::getline(data_stream, line)) {        
+        std::stringstream line_stream(line);
+        std::string line_char;
+        count++;        
+    }
+    return std::make_pair(0, count);
 }
 
 /**

@@ -11,22 +11,20 @@
 #include "../include/contador_linha.hpp"
 
 TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
-    SECTION("abre_arquivo: ERRO_stringNula") {
+    SECTION("abre_arquivo: ERRO_stringVazia") {
         printf("abre_arquivo: erro, sem nome de arquivo.\n");
         std::filebuf f;
         CHECK(abre_arquivo(&f, "") == -1);
     }
-    SECTION("abre_arquivo: ERRO_nomeErradoArquivo") {
-        printf("abre_arquivo: erro, string com nome errado de arquivo.\n");
+    SECTION("abre_arquivo: ERRO_arquivoNaoExiste") {
+        printf("abre_arquivo: erro, string com nome de arquivo que não existe.\n");
         std::filebuf f;
-        std::string s = "sample/helo.cpp";
-        CHECK(abre_arquivo(&f, s) == -1);
+        CHECK(abre_arquivo(&f, "sample/naoexiste.cpp") == -1);
     }
     SECTION("abre_arquivo: OK") {
         printf("abre_arquivo: OK\n");
         std::filebuf f;
-        std::string s = "sample/hello.cpp";
-        CHECK(abre_arquivo(&f, s) == 0);
+        CHECK(abre_arquivo(&f, "sample/hello.cpp") == 0);
     }
 }
 
@@ -35,15 +33,35 @@ TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  
         printf("count_linhas: OK_stringVazia");
         CHECK(count_linhas("").first == 1);
     }
-    SECTION("count_linhas: OK\n") {
-        printf("count_linhas: OK\n");
+    SECTION("count_linhas: OK_arquivoVazio\n") {
+        printf("count_linhas: OK - arquivo vazio\n");
         std::filebuf f;
-        std::string s = "sample/hello.cpp";
-        abre_arquivo(&f, s);
+        abre_arquivo(&f, "sample/vazio.cpp");
         std::stringstream sstr;
         sstr << &f;
         std::string s2(sstr.str());
-        CHECK(count_linhas(s2).first == 0);        
+        CHECK(count_linhas(s2).first == 0);    
+        CHECK(count_linhas(s2).second == 1);    
+    }
+    SECTION("count_linhas: OK_semComentarios\n") {
+        printf("count_linhas: OK - arquivo sem comentarios\n");
+        std::filebuf f;
+        abre_arquivo(&f, "sample/hello.cpp");
+        std::stringstream sstr;
+        sstr << &f;
+        std::string s2(sstr.str());
+        CHECK(count_linhas(s2).first == 0);    
+        CHECK(count_linhas(s2).second == 7);    
+    }
+    SECTION("count_linhas: OK_comComentarios\n") {
+        printf("count_linhas: OK - arquivo com comentarios\n");
+        std::filebuf f;
+        abre_arquivo(&f, "sample/hello_comentarios.cpp");
+        std::stringstream sstr;
+        sstr << &f;
+        std::string s2(sstr.str());
+        CHECK(count_linhas(s2).first == 0);    
+        CHECK(count_linhas(s2).second == 6);    
     }
 }
 
