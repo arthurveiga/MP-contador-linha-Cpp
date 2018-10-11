@@ -29,10 +29,6 @@ TEST_CASE("abre_arquivo", "Testa se o arquivo abre.") {
 }
 
 TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  {
-    SECTION("count_linhas: OK_stringVazia\n") {
-        printf("count_linhas: OK_stringVazia");
-        CHECK(count_linhas("").first == 1);
-    }
     SECTION("count_linhas: OK_arquivoVazio\n") {
         printf("count_linhas: OK - arquivo vazio\n");
         std::filebuf f;
@@ -40,8 +36,8 @@ TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  
         std::stringstream sstr;
         sstr << &f;
         std::string s2(sstr.str());
-        CHECK(count_linhas(s2).first == 0);    
-        CHECK(count_linhas(s2).second == 1);    
+        CHECK(count_linhas(s2).first == 1);    
+        CHECK(count_linhas(s2).second == 0);    
     }
     SECTION("count_linhas: OK_semComentarios\n") {
         printf("count_linhas: OK - arquivo sem comentarios\n");
@@ -53,16 +49,36 @@ TEST_CASE("count_linhas", "Testa se as linhas do arquivo estão sendo lidas.")  
         CHECK(count_linhas(s2).first == 0);    
         CHECK(count_linhas(s2).second == 7);    
     }
-    SECTION("count_linhas: OK_comComentarios\n") {
-        printf("count_linhas: OK - arquivo com comentarios\n");
+    SECTION("count_linhas: OK_comComentariosBarraDupla\n") {
+        printf("count_linhas: OK - arquivo com comentarios de barra dupla\n");
         std::filebuf f;
-        abre_arquivo(&f, "sample/hello_comentarios.cpp");
+        abre_arquivo(&f, "sample/hello_barra_dupla.cpp");
         std::stringstream sstr;
         sstr << &f;
         std::string s2(sstr.str());
         CHECK(count_linhas(s2).first == 0);    
         CHECK(count_linhas(s2).second == 6);    
     }
+    // SECTION("count_linhas: OK_comComentariosBarraAsterisco\n") {
+    //     printf("count_linhas: OK - arquivo com comentarios de barra asterisco\n");
+    //     std::filebuf f;
+    //     abre_arquivo(&f, "sample/hello_barra_asterisco.cpp");
+    //     std::stringstream sstr;
+    //     sstr << &f;
+    //     std::string s2(sstr.str());
+    //     CHECK(count_linhas(s2).first == 0);    
+    //     CHECK(count_linhas(s2).second == 6);    
+    // }
+    // SECTION("count_linhas: OK_comComentariosTotal\n") {
+    //     printf("count_linhas: OK - arquivo com comentarios de todos os tipos\n");
+    //     std::filebuf f;
+    //     abre_arquivo(&f, "sample/hello_comentarios.cpp");
+    //     std::stringstream sstr;
+    //     sstr << &f;
+    //     std::string s2(sstr.str());
+    //     CHECK(count_linhas(s2).first == 0);    
+    //     CHECK(count_linhas(s2).second == 6);    
+    // }
 }
 
 TEST_CASE("le_arquivo_to_string_count", "Testa se o arquivo é transferido para um buffer de string.") {
